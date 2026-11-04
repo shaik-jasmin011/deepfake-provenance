@@ -12,3 +12,15 @@ Completed notebooks and key findings:
 - `day5_metrics.ipynb` — the breast-cancer classifier reached ROC-AUC 0.9937; raising the threshold from 0.3 to 0.9 increased precision from 0.9342 to 1.0000 while recall fell from 0.9861 to 0.7500.
 - `day6_first_neural_net.ipynb` — the neural network has 9,610 trainable parameters; the best tested learning rate (0.1) reached 0.9639 test accuracy.
 - `day7_first_cnn.ipynb` — on Fashion-MNIST, the MLP reached 0.8747 test accuracy with 101,770 parameters, while the CNN reached 0.9007 with 20,490 parameters; Shirt was the CNN's weakest-recall class at 0.67.
+
+## Dataset audit
+
+The Week 3 Day 15 audit is in `notebooks/week3/day15_faces_eda.ipynb`. Place the faces dataset outside the repository, preserving the `{train,valid,test}/{real,fake}` directory layout, and point `DATASET_ROOT` in the notebook's first code cell to that location. The audit reads images in place; it does not copy or modify them.
+
+| Split | Real | Fake | Total | Balance |
+|---|---:|---:|---:|---|
+| Train | 50,000 | 50,000 | 100,000 | 50% / 50% |
+| Valid | 10,000 | 10,000 | 20,000 | 50% / 50% |
+| Test | 10,000 | 10,000 | 20,000 | 50% / 50% |
+
+In a seeded sample of 2,000 images per split, all images were 256 × 256 RGB; no sampled files were unreadable or non-RGB. No filename was shared across splits. MD5 comparison of a random sample of 500 images per split found no cross-split hash matches (sampled-content check, not an exhaustive hash audit).
