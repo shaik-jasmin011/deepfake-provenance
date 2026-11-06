@@ -41,3 +41,11 @@ streamlit run app/ui.py
 ```
 
 By default, the backend loads `models/effnet_b0_smoke.pth` on CPU. Set `MODEL_WEIGHTS` to another compatible EfficientNet-B0 state-dict path to use a different model without changing code. The UI sends requests to `http://127.0.0.1:8000` by default; set `API_URL` to change the backend address. The detector was trained on StyleGAN faces only and may fail on images from other generators.
+
+## Blockchain provenance
+
+The Stage B provenance layer stores only the uploaded file's SHA-256 digest, fake/real verdict, fake score, registrar, and registration time in the `MediaRegistry` contract. The image remains off-chain and is never sent to or stored by the contract. The FastAPI endpoints can register an analysis with `/analyze` and check a file's exact-byte hash with `/verify`; a modified file produces a different hash.
+
+By default, the API uses an in-memory `eth-tester` chain. Its registry and records are ephemeral and reset whenever the API server restarts, so register and verify within the same running server process. `scripts/verify_stage_b.py` exercises compilation, registration, exact-copy verification, a one-pixel tamper check, duplicate-registration rejection, and the API endpoints.
+
+To connect the same client to a deployed Sepolia registry later, set `RPC_URL`, `PRIVATE_KEY`, and `CONTRACT_ADDRESS` in the process environment. The ABI is read from `contracts/deployment.json`; keep private keys in environment variables or a local ignored `.env` file and never commit them. No image data or private keys belong on-chain or in the repository.
