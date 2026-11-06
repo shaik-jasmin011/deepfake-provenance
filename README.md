@@ -24,3 +24,9 @@ The Week 3 Day 15 audit is in `notebooks/week3/day15_faces_eda.ipynb`. Place the
 | Test | 10,000 | 10,000 | 20,000 | 50% / 50% |
 
 In a seeded sample of 2,000 images per split, all images were 256 × 256 RGB; no sampled files were unreadable or non-RGB. No filename was shared across splits. MD5 comparison of a random sample of 500 images per split found no cross-split hash matches (sampled-content check, not an exhaustive hash audit).
+
+## Transfer learning smoke test
+
+The Week 3 Day 16 CPU smoke test is in `notebooks/week3/day16_efficientnet_transfer.ipynb`. It uses ImageNet-pretrained EfficientNet-B0 (4,010,110 total parameters), first training the classifier head and then fine-tuning the last two feature blocks. The measured train-epoch times were 124.3 s and 88.1 s in feature-extraction phase 1, and 88.4 s in fine-tuning phase 2. At the observed mixed-phase rate, projected times are 8.4 minutes for one 10,000-image epoch and 83.6 minutes for one 100,000-image epoch.
+
+These are CPU smoke-test results, not final model results. On a stratified 500-image test subset, accuracy was 0.8060; fake-class precision, recall, and F1 were 0.8048, 0.8080, and 0.8064; ROC-AUC using P(fake) was 0.8961. The confusion matrix (true rows and predicted columns ordered fake, real) was `[[202, 48], [49, 201]]`. The smoke-test weights are saved to the Git-ignored `models/effnet_b0_smoke.pth`.
