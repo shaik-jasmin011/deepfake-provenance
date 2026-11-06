@@ -62,6 +62,5 @@ if uploaded is not None:
                 st.code(result["sha256"], language=None)
 
 st.info(
-    "**Detector limitation:** This model was trained on StyleGAN faces only and may fail "
-    "on images produced by other generators or on images outside its training domain."
+    "**Detector limitation:** Trained on StyleGAN faces only; may fail on other generators."
 )
