@@ -30,3 +30,14 @@ In a seeded sample of 2,000 images per split, all images were 256 × 256 RGB; no
 The Week 3 Day 16 CPU smoke test is in `notebooks/week3/day16_efficientnet_transfer.ipynb`. It uses ImageNet-pretrained EfficientNet-B0 (4,010,110 total parameters), first training the classifier head and then fine-tuning the last two feature blocks. The measured train-epoch times were 124.3 s and 88.1 s in feature-extraction phase 1, and 88.4 s in fine-tuning phase 2. At the observed mixed-phase rate, projected times are 8.4 minutes for one 10,000-image epoch and 83.6 minutes for one 100,000-image epoch.
 
 These are CPU smoke-test results, not final model results. On a stratified 500-image test subset, accuracy was 0.8060; fake-class precision, recall, and F1 were 0.8048, 0.8080, and 0.8064; ROC-AUC using P(fake) was 0.8961. The confusion matrix (true rows and predicted columns ordered fake, real) was `[[202, 48], [49, 201]]`. The smoke-test weights are saved to the Git-ignored `models/effnet_b0_smoke.pth`.
+
+## Running the app
+
+Install the project requirements, then start the FastAPI backend and Streamlit interface in separate terminals from the project root:
+
+```bash
+uvicorn app.main:app --reload
+streamlit run app/ui.py
+```
+
+By default, the backend loads `models/effnet_b0_smoke.pth` on CPU. Set `MODEL_WEIGHTS` to another compatible EfficientNet-B0 state-dict path to use a different model without changing code. The UI sends requests to `http://127.0.0.1:8000` by default; set `API_URL` to change the backend address. The detector was trained on StyleGAN faces only and may fail on images from other generators.
