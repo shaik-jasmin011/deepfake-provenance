@@ -48,4 +48,16 @@ The Stage B provenance layer stores only the uploaded file's SHA-256 digest, fak
 
 By default, the API uses an in-memory `eth-tester` chain. Its registry and records are ephemeral and reset whenever the API server restarts, so register and verify within the same running server process. `scripts/verify_stage_b.py` exercises compilation, registration, exact-copy verification, a one-pixel tamper check, duplicate-registration rejection, and the API endpoints.
 
-To connect the same client to a deployed Sepolia registry later, set `RPC_URL`, `PRIVATE_KEY`, and `CONTRACT_ADDRESS` in the process environment. The ABI is read from `contracts/deployment.json`; keep private keys in environment variables or a local ignored `.env` file and never commit them. No image data or private keys belong on-chain or in the repository.
+### Sepolia deployment
+
+`MediaRegistry` is deployed to Sepolia at [`0x7AcB22B66E7412A93E76AaA2d150138fa69aba64`](https://sepolia.etherscan.io/address/0x7AcB22B66E7412A93E76AaA2d150138fa69aba64). Its ABI and address are stored in `contracts/deployment_sepolia.json`.
+
+To connect the app to Sepolia, set these values in a local, Git-ignored `.env` file:
+
+```dotenv
+RPC_URL=<your Sepolia JSON-RPC endpoint>
+PRIVATE_KEY=<your Sepolia deployer private key>
+CONTRACT_ADDRESS=<deployed MediaRegistry address>
+```
+
+The app loads `.env` at startup. When both `RPC_URL` and `PRIVATE_KEY` are configured, the client checks for Sepolia chain ID `11155111` and signs transactions with the configured account; without them it uses the local in-memory `eth-tester` chain. Keep `.env` private and never commit it. The deployment script updates only its `CONTRACT_ADDRESS` line. `scripts/deploy_sepolia.py` deploys the contract and writes the public address and ABI to `contracts/deployment_sepolia.json`; `scripts/verify_sepolia.py` registers a real test image hash and checks that a one-pixel-modified copy is not found.
