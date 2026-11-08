@@ -52,6 +52,10 @@ By default, the API uses an in-memory `eth-tester` chain. Its registry and recor
 
 `MediaRegistry` is deployed to Sepolia at [`0x7AcB22B66E7412A93E76AaA2d150138fa69aba64`](https://sepolia.etherscan.io/address/0x7AcB22B66E7412A93E76AaA2d150138fa69aba64). Its ABI and address are stored in `contracts/deployment_sepolia.json`.
 
+The deployment transaction succeeded on Sepolia:
+
+![MediaRegistry Sepolia deployment transaction](docs/images/sepolia-deployment.png)
+
 To connect the app to Sepolia, set these values in a local, Git-ignored `.env` file:
 
 ```dotenv
